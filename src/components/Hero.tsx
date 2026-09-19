@@ -1,4 +1,5 @@
 import { useState, type SubmitEvent } from 'react'
+import { validateFleet } from '../lib/calculator'
 
 export type FleetData = {
   vehicles: number
@@ -41,15 +42,19 @@ function parseBR(value: string): number {
 
 function Hero({ onCalculate }: HeroProps) {
   const [values, setValues] = useState(DEFAULTS)
+  const [error, setError] = useState<string | null>(null)
 
   function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
-    onCalculate?.({
+    const data: FleetData = {
       vehicles: parseBR(values.vehicles),
       kmPerVehicle: parseBR(values.kmPerVehicle),
       consumption: parseBR(values.consumption),
       dieselPrice: parseBR(values.dieselPrice),
-    })
+    }
+    const message = validateFleet(data)
+    setError(message)
+    if (!message) onCalculate?.(data)
   }
 
   return (
@@ -139,6 +144,12 @@ function Hero({ onCalculate }: HeroProps) {
               </label>
             ))}
           </div>
+
+          {error && (
+            <p className="-mt-3 mb-4 text-sm font-semibold text-[#d64545]" role="alert">
+              {error}
+            </p>
+          )}
 
           <button
             type="submit"
