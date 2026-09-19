@@ -1,0 +1,45 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Manrope', system-ui, 'Segoe UI', Roboto, sans-serif;
+
+  --color-surface: #f9f8fb;
+  --color-ink: #16131f;
+  --color-muted: #6b6478;
+  --color-brand: #4a4190;
+  --color-brand-2: #6558c4;
+  --color-line: #e8e6ee;
+  --color-card: #fff;
+  --color-card-line: #ece9f2;
+  --color-field: #faf9fc;
+  --color-field-line: #e3e0ea;
+  --color-soft: #ebe7f7;
+  --color-watermark: rgba(74, 65, 144, 0.045);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-surface: #16171d;
+    --color-ink: #f3f4f6;
+    --color-muted: #9ca3af;
+    --color-brand: #8f84e0;
+    --color-brand-2: #a69cf0;
+    --color-line: #2e303a;
+    --color-card: #1f2028;
+    --color-card-line: #2e303a;
+    --color-field: #181920;
+    --color-field-line: #34363f;
+    --color-soft: rgba(143, 132, 224, 0.16);
+    --color-watermark: rgba(143, 132, 224, 0.05);
+  }
+}
+
+@layer base {
+  :root {
+    color-scheme: light dark;
+  }
+
+  body {
+    @apply bg-surface text-ink antialiased;
+  }
+}
