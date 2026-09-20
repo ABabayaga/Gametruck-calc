@@ -1,10 +1,12 @@
 type HeaderProps = {
   step?: 1 | 2
+  // Abre o formulário de contato (que fica oculto até o visitante pedir).
+  onContact: () => void
 }
 
 const STEPS = ['Dados da frota', 'Impacto'] as const
 
-function Header({ step = 1 }: HeaderProps) {
+function Header({ step = 1, onContact }: HeaderProps) {
   return (
     <header className="w-full border-b border-brand/20 bg-surface dark:bg-[#1a1a22]">
       <div className="mx-auto flex min-h-19 max-w-325 items-center gap-6 px-[clamp(16px,5vw,72px)] max-[600px]:min-h-16 max-[600px]:gap-4">
@@ -50,12 +52,13 @@ function Header({ step = 1 }: HeaderProps) {
           </ol>
         </nav>
 
-        <a
-          href="#contato"
-          className="ml-auto inline-flex h-10 shrink-0 items-center gap-2 rounded-lg border border-brand px-4 text-[13px] font-bold text-brand no-underline transition-colors duration-200 hover:bg-brand hover:text-white focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brand max-[600px]:h-9 max-[600px]:px-3 max-[600px]:text-xs"
+        <button
+          type="button"
+          onClick={onContact}
+          className="ml-auto inline-flex h-10 shrink-0 cursor-pointer items-center gap-2 rounded-lg border border-brand px-4 text-[13px] font-bold text-brand transition-colors duration-200 hover:bg-brand hover:text-white focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brand max-[600px]:h-9 max-[600px]:px-3 max-[600px]:text-xs"
         >
           Falar com especialista
-        </a>
+        </button>
       </div>
     </header>
   )
