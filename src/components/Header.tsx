@@ -8,7 +8,7 @@ const STEPS = ['Dados da frota', 'Impacto'] as const
 
 function Header({ step = 1, onContact }: HeaderProps) {
   return (
-    <header className="w-full border-b border-brand/20 bg-surface dark:bg-[#1a1a22]">
+    <header className="w-full border-b border-brand/20 bg-surface">
       <div className="mx-auto flex min-h-19 max-w-325 items-center gap-6 px-[clamp(16px,5vw,72px)] max-[600px]:min-h-16 max-[600px]:gap-4">
         <a
           href="/"
