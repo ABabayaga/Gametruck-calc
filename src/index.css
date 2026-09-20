@@ -17,23 +17,6 @@
   --color-dots: rgba(74, 65, 144, 0.14);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-surface: #16171d;
-    --color-ink: #f3f4f6;
-    --color-muted: #9ca3af;
-    --color-brand: #8f84e0;
-    --color-brand-2: #a69cf0;
-    --color-line: #2e303a;
-    --color-card: #1f2028;
-    --color-card-line: #2e303a;
-    --color-field: #181920;
-    --color-field-line: #34363f;
-    --color-soft: rgba(143, 132, 224, 0.16);
-    --color-dots: rgba(143, 132, 224, 0.12);
-  }
-}
-
 @layer components {
   /* Grade de pontos discreta atrás do formulário, esmaecendo nas bordas */
   .hero-dots {
@@ -53,7 +36,7 @@
 
 @layer base {
   :root {
-    color-scheme: light dark;
+    color-scheme: light;
   }
 
   body {
