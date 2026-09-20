@@ -19,13 +19,20 @@ type Field = {
   label: string
   suffix: string
   prefix?: string
+  hint?: string
 }
 
 const FIELDS: Field[] = [
   { key: 'vehicles', label: 'Quantidade de veículos', suffix: 'veículos' },
   { key: 'kmPerVehicle', label: 'KM por veículo / mês', suffix: 'km' },
   { key: 'consumption', label: 'Média de consumo', suffix: 'km/l' },
-  { key: 'dieselPrice', label: 'Preço médio do diesel', suffix: '/ litro', prefix: 'R$' },
+  {
+    key: 'dieselPrice',
+    label: 'Preço médio do diesel',
+    suffix: '/ litro',
+    prefix: 'R$',
+    hint: 'Variável de mercado',
+  },
 ]
 
 const DEFAULTS: Record<FieldKey, string> = {
@@ -59,12 +66,7 @@ function Hero({ onCalculate }: HeroProps) {
 
   return (
     <section className="relative w-full overflow-hidden bg-surface text-left font-display">
-      <span
-        className="pointer-events-none absolute bottom-[-0.32em] left-[clamp(-20px,6vw,110px)] text-[clamp(200px,26vw,400px)] leading-none font-extrabold tracking-[-0.04em] text-watermark select-none"
-        aria-hidden="true"
-      >
-        03%
-      </span>
+      <div className="hero-dots pointer-events-none absolute inset-0" aria-hidden="true" />
 
       <div className="relative mx-auto grid max-w-325 grid-cols-[minmax(0,1fr)_minmax(0,570px)] items-center gap-[clamp(40px,6vw,100px)] px-[clamp(16px,5vw,72px)] py-[clamp(48px,7vw,100px)] max-[960px]:grid-cols-1">
         <div>
@@ -73,8 +75,26 @@ function Hero({ onCalculate }: HeroProps) {
           </p>
 
           <h1 className="mb-10 text-[clamp(44px,5.4vw,78px)] leading-[1.02] font-extrabold tracking-[-0.045em] text-ink max-[520px]:mb-7">
-            Quanto <span className="text-brand">3% de eficiência</span>{' '}
-            representam na sua frota?
+            Quanto{' '}
+            <span className="relative inline-block whitespace-nowrap text-brand">
+              3%
+              {/* Traço manual sob o número */}
+              <svg
+                className="absolute bottom-[-0.14em] left-[-0.04em] h-[0.2em] w-[108%] text-brand-2"
+                viewBox="0 0 120 16"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M3 11c22-6 55-9 80-7 12 1 22 3 34 6M20 13c18-3 42-4 64-2"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>{' '}
+            de eficiência representam na sua frota?
           </h1>
 
           <p className="mb-10 max-w-[34em] text-[clamp(16px,1.3vw,19px)] leading-[1.55] text-muted">
@@ -83,23 +103,23 @@ function Hero({ onCalculate }: HeroProps) {
             longo do ano.
           </p>
 
-          <p className="flex items-center gap-4 text-base font-semibold text-ink">
-            <span
-              className="grid size-8.5 shrink-0 place-items-center rounded-full bg-soft text-brand"
+          <p className="flex items-end gap-3 text-base font-semibold text-ink">
+            Faça uma simulação com os dados da sua frota.
+            {/* Seta desenhada à mão apontando para o formulário (para baixo no mobile) */}
+            <svg
+              className="mb-1 h-7 w-14 shrink-0 text-brand max-[960px]:h-10 max-[960px]:w-7 max-[960px]:rotate-90"
+              viewBox="0 0 56 28"
               aria-hidden="true"
             >
-              <svg viewBox="0 0 24 24" width="18" height="18">
-                <path
-                  d="M6 18 18 6M9 6h9v9"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </span>
-            Faça uma simulação com os dados da sua frota.
+              <path
+                d="M2 22c10 4 22 2 32-6 5-4 9-8 16-10M42 3l8 3-4 8"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </p>
         </div>
 
@@ -122,27 +142,51 @@ function Hero({ onCalculate }: HeroProps) {
             </div>
           </div>
 
-          <div className="mb-7 grid grid-cols-2 gap-x-4 gap-y-6.5 max-[520px]:grid-cols-1">
-            {FIELDS.map((field) => (
-              <label key={field.key} className="flex flex-col gap-2.5">
-                <span className="text-[13px] font-bold text-ink">{field.label}</span>
-                <span className="flex h-13.5 items-center gap-2 rounded-xl border border-field-line bg-field px-3.5 transition-[border-color,box-shadow] duration-200 focus-within:border-brand focus-within:ring-3 focus-within:ring-soft">
-                  {field.prefix && (
-                    <span className="text-xs font-bold text-brand">{field.prefix}</span>
-                  )}
-                  <input
-                    className="min-w-0 flex-1 bg-transparent p-0 text-[17px] font-medium text-ink outline-none"
-                    type="text"
-                    inputMode="decimal"
-                    value={values[field.key]}
-                    onChange={(e) =>
-                      setValues((prev) => ({ ...prev, [field.key]: e.target.value }))
-                    }
-                  />
-                  <span className="shrink-0 text-xs text-muted">{field.suffix}</span>
-                </span>
-              </label>
-            ))}
+          <div className="mb-8 grid grid-cols-3 gap-x-5 gap-y-7 max-[520px]:grid-cols-1">
+            {FIELDS.map((field) =>
+              field.prefix ? (
+                // Campo com prefixo: box destacado, ocupa a linha inteira
+                <label
+                  key={field.key}
+                  className="col-span-full flex items-center gap-4 rounded-2xl bg-soft p-4 pl-5 transition-shadow duration-200 focus-within:ring-2 focus-within:ring-brand max-[520px]:flex-col max-[520px]:items-stretch max-[520px]:gap-2.5"
+                >
+                  <span className="flex flex-1 flex-col gap-0.5">
+                    <span className="text-[13px] font-bold text-ink">{field.label}</span>
+                    {field.hint && <span className="text-xs text-muted">{field.hint}</span>}
+                  </span>
+                  <span className="flex h-12 w-50 items-center gap-2 rounded-lg border border-field-line bg-card px-3 max-[520px]:w-full">
+                    <span className="text-sm font-extrabold text-brand">{field.prefix}</span>
+                    <input
+                      className="min-w-0 flex-1 bg-transparent p-0 text-lg font-bold text-ink tabular-nums outline-none"
+                      type="text"
+                      inputMode="decimal"
+                      value={values[field.key]}
+                      onChange={(e) =>
+                        setValues((prev) => ({ ...prev, [field.key]: e.target.value }))
+                      }
+                    />
+                    <span className="shrink-0 text-xs text-muted">{field.suffix}</span>
+                  </span>
+                </label>
+              ) : (
+                // Campos numéricos: estilo sublinhado, número em evidência
+                <label key={field.key} className="flex flex-col gap-1.5">
+                  <span className="text-xs font-semibold text-muted">{field.label}</span>
+                  <span className="flex items-baseline gap-1.5 border-b-2 border-field-line pb-1.5 transition-colors duration-200 focus-within:border-brand">
+                    <input
+                      className="min-w-0 flex-1 bg-transparent p-0 text-2xl font-bold tracking-[-0.02em] text-ink tabular-nums outline-none"
+                      type="text"
+                      inputMode="decimal"
+                      value={values[field.key]}
+                      onChange={(e) =>
+                        setValues((prev) => ({ ...prev, [field.key]: e.target.value }))
+                      }
+                    />
+                    <span className="shrink-0 text-xs font-medium text-muted">{field.suffix}</span>
+                  </span>
+                </label>
+              ),
+            )}
           </div>
 
           {error && (

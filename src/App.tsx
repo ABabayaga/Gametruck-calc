@@ -19,7 +19,7 @@ function App() {
 
   return (
     <div className="flex min-h-svh flex-col">
-      <Header />
+      <Header step={result ? 2 : 1} />
       <main className="flex-1">
         <Hero onCalculate={handleCalculate} />
         {result && <Results ref={resultsRef} result={result} />}
