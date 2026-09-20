@@ -14,20 +14,20 @@ type LeadFormProps = {
   ref?: React.Ref<HTMLElement>
 }
 
-type TextFieldKey = 'name' | 'company' | 'role' | 'whatsapp' | 'email'
+type TextFieldKey = 'name' | 'empresa' | 'cargo' | 'whatsapp' | 'email'
 
 const TEXT_FIELDS: { key: TextFieldKey; label: string; placeholder: string; type?: string }[] = [
   { key: 'name', label: 'Nome', placeholder: 'Seu nome completo' },
-  { key: 'company', label: 'Empresa', placeholder: 'Nome da empresa' },
-  { key: 'role', label: 'Cargo', placeholder: 'Seu cargo' },
+  { key: 'empresa', label: 'Empresa', placeholder: 'Nome da empresa' },
+  { key: 'cargo', label: 'Cargo', placeholder: 'Seu cargo' },
   { key: 'whatsapp', label: 'WhatsApp', placeholder: '(67) 99999-9999', type: 'tel' },
   { key: 'email', label: 'E-mail corporativo', placeholder: 'voce@empresa.com.br', type: 'email' },
 ]
 
 const EMPTY: Lead = {
   name: '',
-  company: '',
-  role: '',
+  empresa: '',
+  cargo: '',
   whatsapp: '',
   email: '',
   state: '',
@@ -55,7 +55,7 @@ function LeadForm({ savingsPerYear = null, ref }: LeadFormProps) {
 
     setSending(true)
     try {
-      await submitLead({ ...lead, savingsPerYear, submittedAt: new Date().toISOString() })
+      await submitLead({ ...lead, savingsPerYear, data: new Date().toISOString() })
       setSent(true)
     } catch {
       setError('Não foi possível enviar agora. Tente novamente.')
@@ -95,7 +95,7 @@ function LeadForm({ savingsPerYear = null, ref }: LeadFormProps) {
           </p>
 
           <a
-            href="#"
+            href="https://gametruck.app/"
             className="group inline-flex items-center gap-3 border-b-2 border-brand pb-1.5 text-[13px] font-bold tracking-[0.16em] text-brand uppercase no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
           >
             Conhecer o Game Truck

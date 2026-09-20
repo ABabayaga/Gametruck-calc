@@ -1,7 +1,7 @@
 export type Lead = {
   name: string
-  company: string
-  role: string
+  empresa: string
+  cargo: string
   whatsapp: string
   email: string
   state: string
@@ -26,8 +26,8 @@ export function formatPhoneBR(value: string): string {
 // Retorna a mensagem de erro do primeiro campo inválido, ou null.
 export function validateLead(lead: Lead): string | null {
   if (!lead.name.trim()) return 'Informe seu nome completo.'
-  if (!lead.company.trim()) return 'Informe o nome da empresa.'
-  if (!lead.role.trim()) return 'Informe seu cargo.'
+  if (!lead.empresa.trim()) return 'Informe o nome da empresa.'
+  if (!lead.cargo.trim()) return 'Informe seu cargo.'
   if (lead.whatsapp.replace(/\D/g, '').length < 10) return 'Informe um WhatsApp válido.'
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email)) return 'Informe um e-mail válido.'
   if (!lead.state) return 'Selecione o estado.'
@@ -38,10 +38,31 @@ export function validateLead(lead: Lead): string | null {
 export type LeadPayload = Lead & {
   // Cenário simulado, enviado junto para dar contexto ao time comercial.
   savingsPerYear: number | null
-  submittedAt: string
+  data: string
 }
 
-// TODO: integrar com o Google Sheets (Apps Script / API) — por ora só registra o envio.
+const LEADS_ENDPOINT = import.meta.env.VITE_LEADS_ENDPOINT
+const LEADS_TOKEN = import.meta.env.VITE_LEADS_TOKEN
+
+// Envia o lead para a planilha através do App da Web do Apps Script.
+// O corpo vai como text/plain de propósito: o Apps Script não responde ao
+// preflight OPTIONS, e text/plain evita que o navegador dispare o preflight.
+// O conteúdo continua sendo JSON e é lido em e.postData.contents.
 export async function submitLead(payload: LeadPayload): Promise<void> {
-  console.info('lead', payload)
+  if (!LEADS_ENDPOINT) {
+    // Sem endpoint configurado (dev sem .env.local) o envio não pode ser silencioso.
+    throw new Error('VITE_LEADS_ENDPOINT não configurado.')
+  }
+
+  const response = await fetch(LEADS_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({ ...payload, token: LEADS_TOKEN }),
+    redirect: 'follow',
+  })
+
+  if (!response.ok) throw new Error(`Falha ao enviar o lead (HTTP ${response.status}).`)
+
+  const result = (await response.json()) as { ok?: boolean; error?: string }
+  if (!result.ok) throw new Error(result.error ?? 'Falha ao gravar o lead.')
 }
