@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react'
 import { useEffect, useRef, useState } from 'react'
 import Behavior from './components/Behavior'
 import Cta from './components/Cta'
@@ -50,6 +51,7 @@ function App() {
         )}
       </main>
       <Footer />
+      <Analytics />
     </div>
   )
 }
