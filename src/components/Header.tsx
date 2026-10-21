@@ -9,7 +9,7 @@ const STEPS = ['Dados da frota', 'Impacto'] as const
 function Header({ step = 1, onContact }: HeaderProps) {
   return (
     <header className="w-full border-b border-brand/20 bg-surface">
-      <div className="mx-auto flex min-h-19 max-w-325 items-center gap-6 px-[clamp(16px,5vw,72px)] max-[600px]:min-h-16 max-[600px]:gap-4">
+      <div className="mx-auto flex min-h-19 max-w-325 items-center gap-6 px-[clamp(16px,5vw,72px)] max-[600px]:flex-wrap max-[600px]:gap-2 max-[600px]:py-3">
         <a
           href="/"
           className="inline-flex shrink-0 items-center no-underline focus-visible:rounded-[10px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
@@ -52,7 +52,7 @@ function Header({ step = 1, onContact }: HeaderProps) {
           </ol>
         </nav>
 
-        <div className="ml-auto flex shrink-0 items-center gap-4 max-[600px]:flex-col max-[600px]:items-end max-[600px]:gap-1">
+        <div className="ml-auto flex shrink-0 items-center gap-4 max-[600px]:ml-0 max-[600px]:w-full max-[600px]:justify-between max-[600px]:gap-2">
           <a
             href="https://gametruck.app/"
             target="_blank"
