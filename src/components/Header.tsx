@@ -52,13 +52,37 @@ function Header({ step = 1, onContact }: HeaderProps) {
           </ol>
         </nav>
 
-        <button
-          type="button"
-          onClick={onContact}
-          className="ml-auto inline-flex h-10 shrink-0 cursor-pointer items-center gap-2 rounded-lg border border-brand px-4 text-[13px] font-bold text-brand transition-colors duration-200 hover:bg-brand hover:text-white focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brand max-[600px]:h-9 max-[600px]:px-3 max-[600px]:text-xs"
-        >
-          Falar com especialista
-        </button>
+        <div className="ml-auto flex shrink-0 items-center gap-4 max-[600px]:flex-col max-[600px]:items-end max-[600px]:gap-1">
+          <a
+            href="https://gametruck.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-10 items-center gap-2 rounded-full border border-brand bg-brand px-4 text-[12px] font-bold text-white shadow-md transition-all duration-200 hover:-translate-y-px hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brand max-[600px]:h-8 max-[600px]:gap-1.5 max-[600px]:px-3 max-[600px]:text-[11px]"
+          >
+            Conheça a Game Truck
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 16 16"
+              fill="none"
+              className="size-3.5 shrink-0 max-[600px]:size-3"
+            >
+              <path
+                d="M5 11 11 5M5.75 5H11v5.25"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </a>
+          <button
+            type="button"
+            onClick={onContact}
+            className="inline-flex h-10 shrink-0 cursor-pointer items-center gap-2 rounded-lg border border-brand px-4 text-[13px] font-bold text-brand transition-colors duration-200 hover:bg-brand hover:text-white focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brand max-[600px]:h-9 max-[600px]:px-3 max-[600px]:text-xs"
+          >
+            Falar com especialista
+          </button>
+        </div>
       </div>
     </header>
   )
