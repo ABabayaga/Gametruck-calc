@@ -20,10 +20,11 @@ type Field = {
   suffix: string
   prefix?: string
   hint?: string
+  placeholder?: string
 }
 
 const FIELDS: Field[] = [
-  { key: 'vehicles', label: 'Quantidade de veículos', suffix: 'veículos' },
+  { key: 'vehicles', label: 'Quantidade de veículos', suffix: 'veículos', placeholder: '0' },
   { key: 'kmPerVehicle', label: 'KM por veículo / mês', suffix: 'km' },
   { key: 'consumption', label: 'Média de consumo', suffix: 'km/l' },
   {
@@ -36,7 +37,7 @@ const FIELDS: Field[] = [
 ]
 
 const DEFAULTS: Record<FieldKey, string> = {
-  vehicles: '100',
+  vehicles: '',
   kmPerVehicle: '10.000',
   consumption: '2,5',
   dieselPrice: '7,00',
@@ -174,9 +175,10 @@ function Hero({ onCalculate }: HeroProps) {
                   <span className="text-xs font-semibold text-muted">{field.label}</span>
                   <span className="flex items-baseline gap-1.5 border-b-2 border-field-line pb-1.5 transition-colors duration-200 focus-within:border-brand">
                     <input
-                      className="min-w-0 flex-1 bg-transparent p-0 text-2xl font-bold tracking-[-0.02em] text-ink tabular-nums outline-none"
+                      className="min-w-0 flex-1 bg-transparent p-0 text-2xl font-bold tracking-[-0.02em] text-ink tabular-nums outline-none placeholder:text-muted/50"
                       type="text"
                       inputMode="decimal"
+                      placeholder={field.placeholder}
                       value={values[field.key]}
                       onChange={(e) =>
                         setValues((prev) => ({ ...prev, [field.key]: e.target.value }))

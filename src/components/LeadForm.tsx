@@ -1,12 +1,7 @@
 import { useState, type SubmitEvent } from 'react'
 import { EFFICIENCY_GAIN, formatBRL } from '../lib/calculator'
-import {
-  formatPhoneBR,
-  submitLead,
-  UFS,
-  validateLead,
-  type Lead,
-} from '../lib/leads'
+import { formatPhoneBR, submitLead, validateLead, type Lead } from '../lib/leads'
+import { trackLead } from '../lib/metaPixel'
 
 type LeadFormProps = {
   // Economia anual da simulação, enviada junto com o lead (null se ainda não calculou).
@@ -14,23 +9,18 @@ type LeadFormProps = {
   ref?: React.Ref<HTMLElement>
 }
 
-type TextFieldKey = 'name' | 'empresa' | 'cargo' | 'whatsapp' | 'email'
+type TextFieldKey = 'name' | 'empresa' | 'whatsapp'
 
 const TEXT_FIELDS: { key: TextFieldKey; label: string; placeholder: string; type?: string }[] = [
   { key: 'name', label: 'Nome', placeholder: 'Seu nome completo' },
   { key: 'empresa', label: 'Empresa', placeholder: 'Nome da empresa' },
-  { key: 'cargo', label: 'Cargo', placeholder: 'Seu cargo' },
   { key: 'whatsapp', label: 'WhatsApp', placeholder: '(67) 99999-9999', type: 'tel' },
-  { key: 'email', label: 'E-mail corporativo', placeholder: 'voce@empresa.com.br', type: 'email' },
 ]
 
 const EMPTY: Lead = {
   name: '',
   empresa: '',
-  cargo: '',
   whatsapp: '',
-  email: '',
-  state: '',
   consent: false,
 }
 
@@ -56,6 +46,8 @@ function LeadForm({ savingsPerYear = null, ref }: LeadFormProps) {
     setSending(true)
     try {
       await submitLead({ ...lead, savingsPerYear, data: new Date().toISOString() })
+      // Só conta como Lead para a Meta depois que a planilha confirmou a gravação.
+      trackLead(savingsPerYear)
       setSent(true)
     } catch {
       setError('Não foi possível enviar agora. Tente novamente.')
@@ -153,7 +145,7 @@ function LeadForm({ savingsPerYear = null, ref }: LeadFormProps) {
           onSubmit={handleSubmit}
           noValidate
         >
-          <div className="mb-6 grid grid-cols-2 gap-x-5 gap-y-5 max-[520px]:grid-cols-1">
+          <div className="mb-6 grid grid-cols-1 gap-y-5">
             {TEXT_FIELDS.map((field) => (
               <label key={field.key} className="flex flex-col gap-2">
                 <span className="text-[13px] font-bold text-ink">{field.label}</span>
@@ -172,22 +164,6 @@ function LeadForm({ savingsPerYear = null, ref }: LeadFormProps) {
                 />
               </label>
             ))}
-
-            <label className="flex flex-col gap-2">
-              <span className="text-[13px] font-bold text-ink">Estado</span>
-              <select
-                className={`${inputClass} cursor-pointer`}
-                value={lead.state}
-                onChange={(e) => update('state', e.target.value)}
-              >
-                <option value="">Selecione</option>
-                {UFS.map((uf) => (
-                  <option key={uf} value={uf}>
-                    {uf}
-                  </option>
-                ))}
-              </select>
-            </label>
           </div>
 
           <label className="mb-7 flex cursor-pointer items-start gap-3 text-[14px] text-muted">

@@ -1,17 +1,9 @@
 export type Lead = {
   name: string
   empresa: string
-  cargo: string
   whatsapp: string
-  email: string
-  state: string
   consent: boolean
 }
-
-export const UFS = [
-  'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG',
-  'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO',
-] as const
 
 // Aplica a máscara (67) 99999-9999 conforme o usuário digita.
 export function formatPhoneBR(value: string): string {
@@ -27,10 +19,7 @@ export function formatPhoneBR(value: string): string {
 export function validateLead(lead: Lead): string | null {
   if (!lead.name.trim()) return 'Informe seu nome completo.'
   if (!lead.empresa.trim()) return 'Informe o nome da empresa.'
-  if (!lead.cargo.trim()) return 'Informe seu cargo.'
   if (lead.whatsapp.replace(/\D/g, '').length < 10) return 'Informe um WhatsApp válido.'
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email)) return 'Informe um e-mail válido.'
-  if (!lead.state) return 'Selecione o estado.'
   if (!lead.consent) return 'É preciso concordar em receber o contato.'
   return null
 }
