@@ -1,22 +1,17 @@
+import WhatsAppButton from './WhatsAppButton'
+
 type HeaderProps = {
   step?: 1 | 2
-  // Abre o formulário de contato (que fica oculto até o visitante pedir).
-  onContact: () => void
 }
 
 const STEPS = ['Dados da frota', 'Impacto'] as const
 
-function Header({ step = 1, onContact }: HeaderProps) {
+function Header({ step = 1 }: HeaderProps) {
   return (
     <header className="w-full border-b border-brand/20 bg-surface">
-      <div className="mx-auto flex min-h-19 max-w-325 items-center gap-6 px-[clamp(16px,5vw,72px)] max-[600px]:flex-wrap max-[600px]:gap-2 max-[600px]:py-3">
-        <a
-          href="/"
-          className="inline-flex shrink-0 items-center no-underline focus-visible:rounded-[10px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
-          aria-label="Game Truck — início"
-        >
-          <img src="/LogoGameTruck.png" alt="" className="h-11 w-auto max-[600px]:h-9" />
-        </a>
+      <div className="mx-auto flex min-h-19 max-w-325 items-center gap-6 px-[clamp(16px,5vw,72px)] max-[600px]:min-h-15 max-[600px]:gap-3">
+        {/* Sem link: no celular o toque no logo recarregava a página e perdia a simulação */}
+        <img src="/LogoGameTruck.png" alt="Game Truck" className="h-11 w-auto shrink-0 max-[600px]:h-9" />
 
         <span className="h-7 w-px shrink-0 bg-line max-[720px]:hidden" aria-hidden="true" />
 
@@ -52,37 +47,13 @@ function Header({ step = 1, onContact }: HeaderProps) {
           </ol>
         </nav>
 
-        <div className="ml-auto flex shrink-0 items-center gap-4 max-[600px]:ml-0 max-[600px]:w-full max-[600px]:justify-between max-[600px]:gap-2">
-          <a
-            href="https://gametruck.app/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex h-10 items-center gap-2 rounded-full border border-brand bg-brand px-4 text-[12px] font-bold text-white shadow-md transition-all duration-200 hover:-translate-y-px hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brand max-[600px]:h-8 max-[600px]:gap-1.5 max-[600px]:px-3 max-[600px]:text-[11px]"
-          >
-            Conheça a Game Truck
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 16 16"
-              fill="none"
-              className="size-3.5 shrink-0 max-[600px]:size-3"
-            >
-              <path
-                d="M5 11 11 5M5.75 5H11v5.25"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </a>
-          <button
-            type="button"
-            onClick={onContact}
-            className="inline-flex h-10 shrink-0 cursor-pointer items-center gap-2 rounded-lg border border-brand px-4 text-[13px] font-bold text-brand transition-colors duration-200 hover:bg-brand hover:text-white focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brand max-[600px]:h-9 max-[600px]:px-3 max-[600px]:text-xs"
-          >
-            Falar com especialista
-          </button>
-        </div>
+        {/* Página de campanha: o único caminho para fora é a conversa no WhatsApp */}
+        <WhatsAppButton
+          origin="header"
+          className="ml-auto h-10 shrink-0 rounded-lg border border-brand px-4 text-[13px] text-brand transition-colors duration-200 hover:bg-brand hover:text-white max-[600px]:h-9 max-[600px]:px-3 max-[600px]:text-xs"
+        >
+          Falar com especialista
+        </WhatsAppButton>
       </div>
     </header>
   )

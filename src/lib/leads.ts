@@ -2,7 +2,6 @@ export type Lead = {
   name: string
   empresa: string
   whatsapp: string
-  consent: boolean
 }
 
 // Aplica a máscara (67) 99999-9999 conforme o usuário digita.
@@ -20,11 +19,12 @@ export function validateLead(lead: Lead): string | null {
   if (!lead.name.trim()) return 'Informe seu nome completo.'
   if (!lead.empresa.trim()) return 'Informe o nome da empresa.'
   if (lead.whatsapp.replace(/\D/g, '').length < 10) return 'Informe um WhatsApp válido.'
-  if (!lead.consent) return 'É preciso concordar em receber o contato.'
   return null
 }
 
 export type LeadPayload = Lead & {
+  // O aceite é o próprio envio, com o aviso exibido sob o botão.
+  consent: true
   // Cenário simulado, enviado junto para dar contexto ao time comercial.
   savingsPerYear: number | null
   data: string

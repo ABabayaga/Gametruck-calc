@@ -13,3 +13,8 @@ export function trackLead(savingsPerYear: number | null) {
     savingsPerYear !== null ? { value: Math.round(savingsPerYear), currency: 'BRL' } : {},
   )
 }
+
+// Dispara o evento Contact no clique para abrir o WhatsApp.
+export function trackContact() {
+  window.fbq?.('track', 'Contact')
+}

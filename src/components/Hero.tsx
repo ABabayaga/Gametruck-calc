@@ -69,13 +69,13 @@ function Hero({ onCalculate }: HeroProps) {
     <section className="relative w-full overflow-hidden bg-surface text-left font-display">
       <div className="hero-dots pointer-events-none absolute inset-0" aria-hidden="true" />
 
-      <div className="relative mx-auto grid max-w-325 grid-cols-[minmax(0,1fr)_minmax(0,570px)] items-center gap-[clamp(40px,6vw,100px)] px-[clamp(16px,5vw,72px)] py-[clamp(48px,7vw,100px)] max-[960px]:grid-cols-1">
+      <div className="relative mx-auto grid max-w-325 grid-cols-[minmax(0,1fr)_minmax(0,570px)] items-center gap-[clamp(40px,6vw,100px)] px-[clamp(16px,5vw,72px)] py-[clamp(48px,7vw,100px)] max-[960px]:grid-cols-1 max-[520px]:gap-6 max-[520px]:pt-7 max-[520px]:pb-12">
         <div>
-          <p className="mb-7 flex items-center gap-3.5 text-[13px] font-bold tracking-[0.2em] text-brand uppercase before:h-0.5 before:w-7 before:rounded-xs before:bg-[#9b3bf0]">
+          <p className="mb-7 flex items-center gap-3.5 text-[13px] max-[520px]:mb-4 font-bold tracking-[0.2em] text-brand uppercase before:h-0.5 before:w-7 before:rounded-xs before:bg-[#9b3bf0]">
             Simulação gratuita
           </p>
 
-          <h1 className="mb-10 text-[clamp(44px,5.4vw,78px)] leading-[1.02] font-extrabold tracking-[-0.045em] text-ink max-[520px]:mb-7">
+          <h1 className="mb-10 text-[clamp(44px,5.4vw,78px)] leading-[1.02] font-extrabold tracking-[-0.045em] text-ink max-[520px]:mb-4 max-[520px]:text-[36px]">
             Quanto{' '}
             <span className="relative inline-block whitespace-nowrap text-brand">
               3%
@@ -98,13 +98,14 @@ function Hero({ onCalculate }: HeroProps) {
             de eficiência representam na sua frota?
           </h1>
 
-          <p className="mb-10 max-w-[34em] text-[clamp(16px,1.3vw,19px)] leading-[1.55] text-muted">
+          {/* No celular o texto sai para o formulário aparecer sem rolar */}
+          <p className="mb-10 max-w-[34em] text-[clamp(16px,1.3vw,19px)] leading-[1.55] text-muted max-[520px]:hidden">
             O preço do diesel está fora do seu controle. Mas pequenas melhorias
             na eficiência da operação podem representar milhares de reais ao
             longo do ano.
           </p>
 
-          <p className="flex items-end gap-3 text-base font-semibold text-ink">
+          <p className="flex items-end gap-3 text-base font-semibold text-ink max-[520px]:hidden">
             Faça uma simulação com os dados da sua frota.
             {/* Seta desenhada à mão apontando para o formulário (para baixo no mobile) */}
             <svg
@@ -128,7 +129,7 @@ function Hero({ onCalculate }: HeroProps) {
           className="rounded-3xl border border-card-line bg-card p-[clamp(24px,3vw,40px)] shadow-[0_30px_60px_-30px_rgba(74,65,144,0.28),0_12px_24px_-12px_rgba(22,19,31,0.08)] max-[960px]:max-w-142.5"
           onSubmit={handleSubmit}
         >
-          <div className="mb-9 flex items-start gap-4">
+          <div className="mb-9 flex items-start gap-4 max-[520px]:mb-6">
             <span
               className="grid size-8.5 shrink-0 place-items-center rounded-full border border-field-line text-[11px] font-bold text-brand"
               aria-hidden="true"
