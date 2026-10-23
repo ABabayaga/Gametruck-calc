@@ -1,8 +1,11 @@
 import { track } from '@vercel/analytics'
 import { trackContact } from './metaPixel'
 
-// WhatsApp do comercial que recebe as conversas vindas da calculadora.
-const WHATSAPP_NUMBER = '5511945330585'
+// WhatsApp do comercial (só dígitos, com DDI e DDD, ex.: 5511999999999).
+const WHATSAPP_NUMBER = (import.meta.env.VITE_WHATSAPP_NUMBER ?? '').replace(/\D/g, '')
+
+// Sem número configurado os botões de WhatsApp não aparecem.
+export const HAS_WHATSAPP = WHATSAPP_NUMBER.length > 0
 
 export const WHATSAPP_MESSAGE = 'Fiz a simulação e quero entender o resultado'
 

@@ -1,6 +1,7 @@
 import { useState, type SubmitEvent } from 'react'
 import { formatPhoneBR, submitLead, validateLead, type Lead } from '../lib/leads'
 import { trackLead } from '../lib/metaPixel'
+import { HAS_WHATSAPP } from '../lib/whatsapp'
 import WhatsAppButton from './WhatsAppButton'
 
 type LeadFormProps = {
@@ -87,7 +88,7 @@ function LeadForm({ savingsPerYear = null, ref }: LeadFormProps) {
 
           <p className="mx-auto mb-8 max-w-[32em] text-[clamp(15px,1.2vw,18px)] leading-[1.55] text-muted">
             Vamos te chamar no WhatsApp em até 1 dia útil para agendar a conversa.
-            Se preferir não esperar, chame a gente agora.
+            {HAS_WHATSAPP && ' Se preferir não esperar, chame a gente agora.'}
           </p>
 
           <WhatsAppButton origin="sucesso" className={whatsappClass}>
@@ -186,12 +187,14 @@ function LeadForm({ savingsPerYear = null, ref }: LeadFormProps) {
           </form>
 
           {/* Segundo caminho: muito gestor prefere chamar a preencher formulário */}
-          <div className="mt-5 flex flex-col items-center gap-3 text-center">
-            <p className="text-sm text-muted">Prefere conversar agora?</p>
-            <WhatsAppButton origin="formulario" className={`w-full ${whatsappClass}`}>
-              Chamar no WhatsApp
-            </WhatsAppButton>
-          </div>
+          {HAS_WHATSAPP && (
+            <div className="mt-5 flex flex-col items-center gap-3 text-center">
+              <p className="text-sm text-muted">Prefere conversar agora?</p>
+              <WhatsAppButton origin="formulario" className={`w-full ${whatsappClass}`}>
+                Chamar no WhatsApp
+              </WhatsAppButton>
+            </div>
+          )}
         </div>
       </div>
     </section>

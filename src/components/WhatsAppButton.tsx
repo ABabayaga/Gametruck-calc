@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { trackWhatsappClick, whatsappUrl } from '../lib/whatsapp'
+import { HAS_WHATSAPP, trackWhatsappClick, whatsappUrl } from '../lib/whatsapp'
 
 type WhatsAppButtonProps = {
   // Identifica o botão nos eventos (header, formulario, sucesso).
@@ -9,6 +9,8 @@ type WhatsAppButtonProps = {
 }
 
 function WhatsAppButton({ origin, className = '', children }: WhatsAppButtonProps) {
+  if (!HAS_WHATSAPP) return null
+
   return (
     <a
       href={whatsappUrl()}
